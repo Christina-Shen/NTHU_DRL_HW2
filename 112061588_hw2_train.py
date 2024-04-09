@@ -1,4 +1,3 @@
-# references and pretrained model from :https://github.com/roclark/super-mario-bros-dqn/blob/master/core/argparser.py
 
 from os.path import join
 from shutil import copyfile, move
@@ -15,6 +14,7 @@ from gym.spaces import Box
 from nes_py.wrappers import JoypadSpace
 import numpy as np
 from random import random, randrange
+
 
 
 import torch
