@@ -10,3 +10,6 @@ nes-py
 opencv-python  
 tensordict
 torchrl
+tqdm
+requests
+argparse
