@@ -71,7 +71,7 @@ for e in range(episodes):
     step=0
     while True:
         step+=1
-        env.render()
+        #env.render()
         # Run agent on the state
         action = agent.choose_action(state)
 
