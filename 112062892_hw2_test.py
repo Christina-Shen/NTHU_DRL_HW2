@@ -29,8 +29,8 @@ from torchrl.data import TensorDictReplayBuffer, LazyMemmapStorage
 import importlib
 from scipy.stats import pearsonr
 #hw2_train = importlib.import_module("GPU_ver2.py")
-# import os
-# os.environ['KMP_DUPLICATE_LIB_OK']='TRUE'
+import os
+os.environ['KMP_DUPLICATE_LIB_OK']='TRUE'
 
 model_name="112061588_hw2_train"
 hw2_train = importlib.import_module(model_name)
@@ -59,20 +59,24 @@ COMPLEX_MOVEMENT = [
     ['down'],
     ['up'],
 ]
-env = wrap_environment(COMPLEX_MOVEMENT)
+#env = wrap_environment(COMPLEX_MOVEMENT)
+env=gym_super_mario_bros.make("SuperMarioBros-v0") #(1,240,256,3)
 episodes = 50
 ep_rewards = []
 
 for e in range(episodes):
     state = env.reset()
+    #print(state.shape)
+    #print(state.shape)
     total_reward = 0.0
     r=[]
     # Play the game!
     step=0
     while True:
         step+=1
+        #print(state.shape)
         #env.render()
-        # Run agent on the state
+       # Run agent on the state
         action = agent.act(state)
 
         # Agent performs action

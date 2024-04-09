@@ -251,14 +251,63 @@ class Agentnet(nn.Module):
 #----------------------Agent choose action----------------------
 class Agent:
     def __init__(self):
-        
         self.state_dim = (4, 84, 84)
         self.action_dim = 12
         self.test_mode = 1
         self.device=torch.device('cpu')
         self.mode=0
+        #======
+        self.if_first=0
+        self.env = wrap_environment(COMPLEX_MOVEMENT)
+        self.st=0
+        self.nst=0
+        #========
+    # def wrap_env(self,state):
+    #     env=gym_super_mario_bros.make("SuperMarioBros-v0")
+    #     s= env.reset()
+    #     def change_size(state):
+    #         state=np.squeeze(state)
+    #         state=cv2.cvtColor(state, cv2.COLOR_RGB2GRAY)
+    #         state = cv2.resize(state, (84, 84),interpolation=cv2.INTER_AREA)
+    #         state=state[:, :, None]
+    #         state=np.array(state).astype(np.float32) / 255.0
+    #         state = np.stack((state, state, state, state), axis=0)
+    #         state=np.squeeze(state)
+    #         #print("qq",np.shape(state))
+    #         return state
+    #     if (state.shape==(240,256,3)):
+    #          states_lst=[]
+    #          nstate=change_size(state)
+    #          states_lst.append(nstate)
+    #          for i in range(1,4):
+    #             q_value = self.policy_net.forward(state)
+    #             action = q_value.max(1)[1].item()
+    #             state=env.step(action)
+    #             nstate=change_size(state)
+    #             states_lst.append(nstate)
+    #          state=np.stack(states_lst, axis=0)
+ 
+    #          #state = np.stack((state, state, state, state), axis=0)
+    #          state=np.squeeze(state)
+    #     return state
+
 
     def act(self, state):
+        #print(state.shape)
+        if(state.shape == (240,256,3)) and (self.if_first==0):
+            #self.env = wrap_environment(COMPLEX_MOVEMENT)
+            self.st = self.env.reset()
+            self.if_first=1
+        if (state.shape == (240,256,3)):
+            self.st= torch.FloatTensor(np.float32(self.st)).unsqueeze(0).to(self.device)
+            q_value = self.policy_net.forward(self.st)
+            action = q_value.max(1)[1].item()
+            self.nst, reward, done, info = self.env.step(action)
+            self.st=self.nst
+            return action
+            #print("oo")
+            # state=self.wrap_env(state)
+            # print(state.shape)
         if self.mode==1:
              action = rand.choice([2,3,4])
              #print("choose action 2")
