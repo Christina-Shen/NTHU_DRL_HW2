@@ -258,7 +258,7 @@ class Agent:
         self.device=torch.device('cpu')
         self.mode=0
 
-    def choose_action(self, state):
+    def act(self, state):
         if self.mode==1:
              action = rand.choice([2,3,4])
              #print("choose action 2")
@@ -391,7 +391,7 @@ if __name__ == '__main__':
         while True:
             agent.update_parameter(episode)
             #----------------start learn----------------------------------
-            action = agent.choose_action(state)
+            action = agent.act(state)
 
             next_state, reward, done, info = env.step(action)
 

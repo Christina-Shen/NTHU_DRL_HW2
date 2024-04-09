@@ -73,7 +73,7 @@ for e in range(episodes):
         step+=1
         #env.render()
         # Run agent on the state
-        action = agent.choose_action(state)
+        action = agent.act(state)
 
         # Agent performs action
         next_state, reward, done, info = env.step(action)
